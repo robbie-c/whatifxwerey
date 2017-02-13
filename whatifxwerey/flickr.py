@@ -23,7 +23,7 @@ def get_usable_license_ids():
 
 
 def search(keyword, keys):
-    flickr_api.set_keys(keys.flickr_key, keys.flickr_secret)
+    flickr_api.set_keys(keys["flickr_key"], keys["flickr_secret"])
 
     api_args = {
         "tags": keyword,

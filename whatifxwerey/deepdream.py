@@ -142,7 +142,7 @@ def save(a, path, fmt='jpeg'):
 
 def to_image(a):
     a = np.uint8(np.clip(a, 0, 255))
-    PIL.Image.fromarray(a)
+    return PIL.Image.fromarray(a)
 
 
 def merge(source_img, guide_img, end='inception_3b/output'):

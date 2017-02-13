@@ -11,8 +11,8 @@ SEARCH_URL = "https://www.googleapis.com/customsearch/v1"
 def request_string(query, keys):
     params = {
         "q": query,
-        "cx": keys.google_custom_search_id,
-        "key": keys.google_custom_search_key,
+        "cx": keys["google_custom_search_id"],
+        "key": keys["google_custom_search_key"],
         "fileType": "jpg",
         "filter": "1",
         "imgColorType": "color",

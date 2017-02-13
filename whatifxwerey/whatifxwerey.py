@@ -15,7 +15,7 @@ class SearchSources(Enum):
 DEFAULT_SEARCH_SOURCE = SearchSources.google
 
 
-def what_if_x_were_y(x_phrase, y_phrase, search_source=DEFAULT_SEARCH_SOURCE, keys=None):
+def what_if_x_were_y(x_phrase, y_phrase, keys, search_source=DEFAULT_SEARCH_SOURCE):
     if search_source == SearchSources.google:
         search = google_custom_search.search
     else:
@@ -28,8 +28,8 @@ def what_if_x_were_y(x_phrase, y_phrase, search_source=DEFAULT_SEARCH_SOURCE, ke
     return merge(x_image, y_image)
 
 
-def image_max_size(image, maxSize=512):
-    ratio = maxSize / max(*image.size)
+def image_max_size(image, max_size=512):
+    ratio = max_size / max(*image.size)
 
     if ratio >= 1:
         return image
@@ -40,9 +40,20 @@ def image_max_size(image, maxSize=512):
     return image.resize((new_width, new_height), resample=PIL.Image.LANCZOS)
 
 
-orangeImage = imageMaxSize(orangeImage)
+def main():
+    import argparse
+    import json
+    parser = argparse.ArgumentParser(description='What if X were Y? Find out using image search APIs and deepdream')
+    parser.add_argument('x_phrase', type=str, help='the search phrase for X')
+    parser.add_argument('y_phrase', type=str, help='the search phrase for Y')
+    parser.add_argument('keyfile_json_path', type=str, help='a JSON file containing keys for image searches')
+    parser.add_argument('output_path', type=str, help='where to save the resulting jpeg')
+    args = parser.parse_args()
+    with open(args.keyfile_json_path) as data_file:
+        keys = json.load(data_file)
+    output_image = what_if_x_were_y(args.x_phrase, args.y_phrase, keys)
+    output_image.save(args.output_path, "jpeg")
 
-bananaImage.save("banana.jpg", "jpeg")
-orangeImage.save("orange.jpg", "jpeg")
 
-merge(bananaImage, orangeImage)
+if __name__ == "__main__":
+    main()
